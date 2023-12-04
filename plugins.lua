@@ -15,14 +15,40 @@ local plugins = {
           require "custom.configs.null-ls"
         end,
       },
-      {
-        "simrat39/rust-tools.nvim",
-      },
     },
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
     end, -- Override to setup mason-lspconfig
+  },
+
+  -- Rust-tools
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end,
+  },
+  {
+    "simrat39/rust-tools.nvim",
+    ft = "rust",
+    dependencies = "neovim/nvim-lspconfig",
+    opts = function()
+      return require "custom.configs.rust-tools"
+    end,
+    config = function(_, opts)
+      require("rust-tools").setup(opts)
+    end,
+  },
+  {
+    "saecki/crates.nvim",
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    ft = {"rust", "toml"},
+    config = function(_, opts)
+      local crates = require("crates")
+      crates.setup(opts)
+    end,
   },
 
   -- override plugin configs
@@ -52,7 +78,7 @@ local plugins = {
 
   {
     "folke/tokyonight.nvim",
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here

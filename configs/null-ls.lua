@@ -21,6 +21,9 @@ local sources = {
   -- rust
   b.formatting.rustfmt,
 
+  --python
+  b.formatting.black,
+
   -- golang
   b.diagnostics.golangci_lint,
   b.formatting.goimports_reviser,

@@ -37,7 +37,7 @@ M.mason = {
     "deno",
     "prettier",
     -- rust
-    "rust_analyzer",
+    "rust-analyzer",
   },
 }
 

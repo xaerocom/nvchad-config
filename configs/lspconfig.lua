@@ -29,25 +29,3 @@ lspconfig.gopls.setup {
     },
   },
 }
-
--- Rust tools -> sets LSP as well
-local opts = {
-  tools = {
-    runnables = {
-      use_telescope = true,
-    },
-  },
-  server = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      ["rust-analyzer"] = {
-        -- enable clippy on save
-        checkOnSave = {
-          command = "clippy",
-        },
-      },
-    },
-  },
-}
-require("rust-tools").setup(opts)
