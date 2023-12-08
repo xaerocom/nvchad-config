@@ -43,10 +43,10 @@ local plugins = {
   },
   {
     "saecki/crates.nvim",
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    ft = {"rust", "toml"},
+    dependencies = { "nvim-lua/plenary.nvim" },
+    ft = { "rust", "toml" },
     config = function(_, opts)
-      local crates = require("crates")
+      local crates = require "crates"
       crates.setup(opts)
     end,
   },
@@ -99,11 +99,58 @@ local plugins = {
   },
 
   -- Debugger
-  { "mfussenegger/nvim-dap" },
-  { "rcarriga/nvim-dap-ui" },
+  {
+    "mfussenegger/nvim-dap",
+    keys = {
+      {
+        "<leader>b",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "Toggle breakpoint",
+      },
+    },
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    -- stylua: ignore
+    keys = {
+      { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+      { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+    },
+    opts = {},
+    config = function(_, opts)
+      -- setup dap config by VsCode launch.json file
+      -- require("dap.ext.vscode").load_launchjs()
+      local dap = require "dap"
+      local dapui = require "dapui"
+      dapui.setup(opts)
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open {}
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close {}
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close {}
+      end
+    end,
+  },
   { "leoluz/nvim-dap-go" },
-  { "theHamsta/nvim-dap-virtual-text" },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    opts = {},
+  },
   { "nvim-telescope/telescope-dap.nvim" },
+  {
+    "folke/neodev.nvim",
+    opts = {},
+    config = function()
+      require("neodev").setup {
+        library = { plugins = { "nvim-dap-ui" }, types = true },
+      }
+    end,
+  },
 
   -- To make a plugin not be loaded
   -- {
