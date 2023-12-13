@@ -47,6 +47,7 @@ M.nvimtree = {
     custom = {
       '^.git$'
     },
+    git_ignored = false,
   },
 
   git = {
