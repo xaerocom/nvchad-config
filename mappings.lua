@@ -10,9 +10,12 @@ M.general = {
 -- more keybinds!
 M.custom = {
   v = {
-    ["J"] = {":m '>+1<CR>gv=gv", "Move line down"},
-    ["K"] = {":m '<-2<CR>gv=gv", "Move line up"},
-  }
+    ["J"] = { ":m '>+1<CR>gv=gv", "Move line down" },
+    ["K"] = { ":m '<-2<CR>gv=gv", "Move line up" },
+  },
+  n = {
+    ["<leader>fd"] = { ":Telescope diagnostics <CR>", "Telescope diagnostics" },
+  },
 }
 
 return M
